@@ -4,37 +4,26 @@ import Loading from './pages/Loading'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Chat from './pages/Chat'
-import Profile from './pages/Profile'
+import Profile from './pages/ProfilePage'
 import InitChat from './pages/InitChat'
 import Refactor from './pages/Refactor'
 import Preview from './pages/Preview'
 import Commit from './pages/Commit'
-import SidebarLayout from './components/slidebar'
+import SidebarLayout from './components/SidebarLayout'
 import './styles/app.css'
+import ProfilePage from './pages/ProfilePage'
+import "./index.css"; 
 
 export default function App() {
   return (
     <div className="app-root">
-      <nav className="top-nav">
-        <div className="nav-left">Repo-AI</div>
-        <div className="nav-links">
-          <Link to="/loading">Loading</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/home">Home</Link>
-          <Link to="/chat">Chat</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/init-chat">Init Chat</Link>
-          <Link to="/refactor">Refactor</Link>
-          <Link to="/preview">Preview</Link>
-          <Link to="/commit">Commit</Link>
-          
-        </div>
-      </nav>
-
+      
       <main className="main-area">
         <Routes>
            {/* Routes without sidebar */}
       <Route path="/" element={<Loading />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/sidebar" element={<SidebarLayout />} />
       <Route path="/loading" element={<Loading />} />
       <Route path="/login" element={<Login />} />
       

@@ -11,10 +11,10 @@ export default function Login() {
       />
 
       {/* Title */}
-      <h1 className="text-2xl font-semibold mb-2 text-white">Log in to RepoAI</h1>
+      <h1 className="text-2xl font-semibold mb-2 text-[#FFFFFF]">Log in to RepoAI</h1>
 
       {/* Description */}
-      <p className="text-sm text-white max-w-sm mb-8 leading-relaxed">
+      <p className="text-sm text-[#FFFFFF] max-w-sm mb-8 leading-relaxed">
         We use GitHub OAuth for secure and simple authentication. <br />
         Your personal information is never stored on our servers.
       </p>

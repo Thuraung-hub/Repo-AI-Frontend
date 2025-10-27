@@ -1,96 +1,69 @@
-import { Send } from 'lucide-react';
-import { useState } from 'react';
-//hahahhadsdsdds
-export default function Chat() {
-  const [messages, setMessages] = useState([
-    {
-      role: 'ai',
-      content: 'Hello! How can I assist you with refactoring today?'
-    },
-    {
-      role: 'user',
-      content: 'Commit and push to a new branch.'
-    },
-    {
-      role: 'ai',
-      content: "I'll create a new branch and commit your changes.\n\nnew branch: `feature/improve-exception-handling`"
-    },
-    {
-      role: 'ai',
-      content: 'I have created a new branch and committed your changes.'
-    }
-  ]);
-  const [inputValue, setInputValue] = useState('');
+import React, { useState } from 'react';
+import { Menu, Plus, User, Coffee } from 'lucide-react';
 
-  const handleSend = () => {
-    if (inputValue.trim()) {
-      setMessages([...messages, { role: 'user', content: inputValue }]);
-      setInputValue('');
-      
-      // Simulate AI response
-      setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          role: 'ai', 
-          content: 'I understand. Let me help you with that.' 
-        }]);
-      }, 1000);
-    }
-  };
+const ChatHistory = () => {
+  const [activeNav, setActiveNav] = useState('chat-history');
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
+  const chatSessions = [
+    { id: 1, repository: 'Project Alpha', date: '2024-01-15', summary: 'View Details' },
+    { id: 2, repository: 'Project Beta', date: '2024-02-20', summary: 'View Details' },
+    { id: 3, repository: 'Project Gamma', date: '2024-03-25', summary: 'View Details' },
+    { id: 4, repository: 'Project Delta', date: '2024-04-30', summary: 'View Details' },
+    { id: 5, repository: 'Project Epsilon', date: '2024-05-05', summary: 'View Details' }
+  ];
+
+  const navItems = [
+    { id: 'new-chat', label: 'New Chat', icon: Plus },
+    { id: 'chat-history', label: 'Chat History', icon: Menu },
+    { id: 'profile', label: 'Profile', icon: User }
+  ];
 
   return (
-    <div className="flex flex-col h-screen bg-neutral-950">
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-8 py-4 border-b border-neutral-800">
-        <div className="text-sm text-gray-400">User</div>
-        <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8 py-2.5 rounded-lg transition-colors">
-          Save Changes.
-        </button>
-      </div>
+    <div className="flex h-screen bg-black text-[#FFFFFF] p-6 bg-[#121212]">
+      {/* Sidebar */}
+      
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-8 py-6 space-y-4">
-        {messages.map((message, index) => (
-          <div key={index} className="flex flex-col gap-2">
-            <div className="text-xs text-gray-500 uppercase">
-              {message.role === 'ai' ? 'AI' : 'User'}
-            </div>
-            <div className={`max-w-3xl p-4 rounded-lg whitespace-pre-wrap ${
-              message.role === 'ai' 
-                ? 'bg-neutral-800 text-white' 
-                : 'bg-yellow-500 text-black ml-auto'
-            }`}>
-              {message.content}
-            </div>
+      {/* Main Content */}
+      <main className="flex-1 px-12 py-10">
+        <div className="max-w-6xl">
+          {/* Header */}
+          <div className="mb-8">
+            <h2 className="text-4xl font-extrabold mb-2">Chat History</h2>
+            <p className="text-orange-400 text-base text-[#FFA500]">
+              You've completed <span className="font-semibold">5</span> refactoring sessions • Select one to review
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* Input Area */}
-      <div className="px-8 py-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto flex gap-3 items-end">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Enter Your Prompt"
-            className="flex-1 bg-neutral-800 text-white px-6 py-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-          />
-          <button 
-            onClick={handleSend}
-            className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8 py-3.5 rounded-lg transition-colors flex items-center gap-2"
-          >
-            Send
-          </button>
+          {/* Table */}
+          <div className="border border-gray-800 rounded-lg overflow-hidden">
+            {/* Table Header */}
+            <div className="grid grid-cols-12 gap-4 px-8 py-5 bg-[#222222] border-b border-gray-800 rounded-t-lg">
+              <div className="col-span-5 text-gray-300 font-semibold text-base">Repository</div>
+              <div className="col-span-3 text-gray-300 font-semibold text-base">Date</div>
+              <div className="col-span-4 text-gray-300 font-semibold text-base">Summary</div>
+            </div>
+
+            {/* Table Rows */}
+            {chatSessions.map((session, index) => (
+              <div
+                key={session.id}
+                className={`grid grid-cols-12 gap-4 px-8 py-6 cursor-pointer transition-colors
+                  ${
+                    index !== chatSessions.length - 1
+                      ? 'border-b border-gray-800 hover:bg-[#222222]'
+                      : 'hover:bg-[#222222]'
+                  }`}
+              >
+                <div className="col-span-5 font-normal text-white">{session.repository}</div>
+                <div className="col-span-3 text-gray-400">{session.date}</div>
+                <div className="col-span-4 text-white font-semibold">{session.summary}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
-}
+};
+
+export default ChatHistory;

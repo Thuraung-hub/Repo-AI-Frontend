@@ -45,7 +45,7 @@ export default function RepoSelector() {
           <>
             {/* Step 1: Select Repository */}
             <div className="mb-8">
-              <h2 className="text-3xl font-semibold mb-4">Step 1 of 2: Select Repository</h2>
+              <h2 className="text-3xl font-semibold mb-4 text-[#FFA500]" >Step 1 of 2: Select Repository</h2>
               <div className="flex gap-2 mb-6">
                 <div className="flex-1 h-2 bg-orange-500 rounded"></div>
                 <div className="flex-1 h-2 bg-zinc-800 rounded"></div>
@@ -70,8 +70,8 @@ export default function RepoSelector() {
                   onClick={() => setActiveFilter(filter)}
                   className={`px-6 py-2 rounded-lg font-medium bg-[#212121] transition ${
                     activeFilter === filter
-                      ? 'bg-[#FFA500] text-[#FFFFFF] '
-                      : 'bg-zinc-900 text-white hover:bg-zinc-800'
+                      ? 'bg-[#FFA500] text-[#121212] '
+                      : 'bg-zinc-900 text-[#FFFFFF] hover:bg-zinc-800'
                   }`}
                 >
                   {filter}
@@ -120,7 +120,7 @@ export default function RepoSelector() {
           <>
             {/* Step 2: Select Branch */}
             <div className="mb-8">
-              <h2 className="text-3xl font-semibold mb-4" style={{ color: '#d4a574' }}>
+              <h2 className="text-3xl font-semibold mb-4" style={{ color: '#FFA500' }}>
                 Step 2 of 2: Select Branch
               </h2>
               <div className="flex gap-2 mb-6">

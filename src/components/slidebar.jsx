@@ -11,10 +11,10 @@ export default function SidebarLayout({ children }) {
     <div className="min-h-screen flex text-white bg-[#343A40]">
       
       {/* Sidebar */}
-      <aside className="border-none w-[18%] p-6 bg-[#212121] flex flex-col pl-[4%]">
+      <aside className="border-none w-[18%] p-6 bg-[#212121] flex flex-col">
         {/* Repo AI Header */}
         <div 
-          className=" border-none justify-start flex items-center gap-4 cursor-pointer h-[18%]"
+          className=" border-none justify-center flex items-center gap-4 cursor-pointer h-[18%]"
           onClick={() => navigate('/home')}
         >
           <div className="w-12 h-12 flex items-center justify-center mr-[15px]">
@@ -24,7 +24,7 @@ export default function SidebarLayout({ children }) {
         </div>
 
         {/* Navigation Items */}
-        <nav className="space-y-4 flex flex-col h-[30%] justify-evenly mt-10">
+        <nav className="space-y-4 flex flex-col h-[30%] justify-evenly mt-10  pl-[15%]">
           {/* New Chat */}
           <button
             onClick={() => navigate('/init-chat')}

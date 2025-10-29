@@ -24,10 +24,10 @@ const ChatHistory = () => {
       
 
       {/* Main Content */}
-      <main className="flex-1 px-12 py-10">
+      <main className="flex-1 p-[5%]">
         <div className="max-w-6xl">
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-8 px-[10px]">
             <h2 className="text-4xl font-extrabold mb-2">Chat History</h2>
             <p className="text-orange-400 text-base text-[#FFA500]">
               You've completed <span className="font-semibold">5</span> refactoring sessions • Select one to review
@@ -35,9 +35,9 @@ const ChatHistory = () => {
           </div>
 
           {/* Table */}
-          <div className="border border-gray-800 rounded-lg overflow-hidden">
+          <div className="bg-[#212121] border border-[#404040] rounded-lg overflow-hidden m-[25px] m-[10%]">
             {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 px-8 py-5 bg-[#222222] border-b border-gray-800 rounded-t-lg">
+            <div className=" p-[20px] font-[900] grid grid-cols-12 gap-4 px-8 py-5 bg-[#404040] rounded-t-lg">
               <div className="col-span-5 text-gray-300 font-semibold text-base">Repository</div>
               <div className="col-span-3 text-gray-300 font-semibold text-base">Date</div>
               <div className="col-span-4 text-gray-300 font-semibold text-base">Summary</div>
@@ -47,7 +47,7 @@ const ChatHistory = () => {
             {chatSessions.map((session, index) => (
               <div
                 key={session.id}
-                className={`grid grid-cols-12 gap-4 px-8 py-6 cursor-pointer transition-colors
+                className={`grid grid-cols-12 gap-4 p-[20px] cursor-pointer transition-colors
                   ${
                     index !== chatSessions.length - 1
                       ? 'border-b border-gray-800 hover:bg-[#222222]'

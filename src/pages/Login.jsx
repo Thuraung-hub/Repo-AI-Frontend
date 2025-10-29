@@ -1,6 +1,7 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 export default function RepoAILogin() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#000000' }}>
       <div className="text-center">
@@ -45,7 +46,7 @@ export default function RepoAILogin() {
         </p>
 
         {/* Login Button */}
- <button 
+ <button   onClick={() => navigate('/home')}
   className="px-[12px] py-[12px] rounded-[10px] bg-[#FFA500] flex items-center gap-3 mx-auto my-[25px] transition-all duration-200 hover:opacity-90"
 >
           <svg 

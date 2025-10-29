@@ -11,10 +11,12 @@ import Preview from './pages/Preview'
 import Commit from './pages/Commit'
 import SidebarLayout from './components/slidebar'
 import './styles/app.css'
+import { ChatProvider } from './components/chatContent'
 
 export default function App() {
   return (
-    <div className="app-root">
+   <ChatProvider>
+     <div className="app-root">
       <nav className="top-nav">
         <div className="nav-left">Repo-AI</div>
         <div className="nav-links">
@@ -34,7 +36,7 @@ export default function App() {
       <main className="main-area">
         <Routes>
            {/* Routes without sidebar */}
-      <Route path="/" element={<Loading />} />
+      
       <Route path="/loading" element={<Loading />} />
       <Route path="/login" element={<Login />} />
       
@@ -49,5 +51,6 @@ export default function App() {
         </Routes>
       </main>
     </div>
+   </ChatProvider>
   )
 }

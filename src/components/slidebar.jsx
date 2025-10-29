@@ -18,7 +18,7 @@ export default function SidebarLayout({ children }) {
           onClick={() => navigate('/home')}
         >
           <div className="w-12 h-12 flex items-center justify-center ml-[10%] mr-[15px]">
-            <Coffee className="w-8 h-8 color-white" />
+            <Coffee className="w-8 h-8 text-[#FFFFFF]" />
           </div>
           <span className="text-xl font-semibold text-[#FFFFFF]">Repo AI</span>
         </div>
@@ -35,11 +35,11 @@ export default function SidebarLayout({ children }) {
             `}
           >
             <div className={`
-              w-10 h-10 flex items-center justify-center rounded-lg gap
+              w-10 h-10 p-[5px] flex items-center justify-center rounded-lg gap
               bg-[#404040] mr-[10px]
               ${isActive('/init-chat') || isActive('/home') ? 'bg-[#404040]' : 'hover:bg-[#343A40]'}
             `}>
-              <Plus className="w-5 h-5" />
+              <Plus className="w-5 h-5 text-[#FFFFFF]" />
             </div>
             <span className="font-medium text-[#FFFFFF]">New Chat</span>
           </button>
@@ -54,11 +54,11 @@ export default function SidebarLayout({ children }) {
             `}
           >
             <div className={`
-              w-10 h-10 flex items-center justify-center rounded-lg
+              w-10 h-10 p-[5px] flex items-center justify-center rounded-lg
               bg-[#404040] mr-[10px]
               ${isActive('/chat') ? 'bg-[#404040]' : 'hover:bg-[#343A40]'}
             `}>
-              <Menu className="w-5 h-5" />
+              <Menu className="w-5 h-5 text-[#FFFFFF]" />
             </div>
             <span className="font-medium text-[#FFFFFF]">Chat History</span>
           </button>
@@ -73,11 +73,11 @@ export default function SidebarLayout({ children }) {
             `}
           >
             <div className={`
-              w-10 h-10 flex items-center justify-center rounded-lg
+              w-10 h-10 p-[5px] flex items-center justify-center rounded-lg
               bg-[#404040] mr-[10px]
               ${isActive('/profile') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
             `}>
-              <User className="w-5 h-5" />
+              <User className="w-5 h-5 text-[#FFFFFF]" />
             </div>
             <span className="font-medium text-[#FFFFFF]">Profile</span>
           </button>

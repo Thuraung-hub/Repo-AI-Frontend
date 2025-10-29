@@ -30,7 +30,7 @@ export default function ProfilePage() {
 
               {/* Logout Button */}
               <button 
-                className="my-[10px] bg-[#343A40] text-[#FFFFFF] w-[50%] max-w-md py-[1%] m-10px rounded-lg font-medium transition-colors"
+                className="my-[10px] bg-[#343A40] text-[#FFFFFF] w-[50%] max-w-md py-[1%] m-10px rounded-[10px] font-medium transition-colors"
               >
                 Logout
               </button>
@@ -39,7 +39,7 @@ export default function ProfilePage() {
 
           {/* Clear History Section */}
           <div className="rounded-lg p-6">
-            <div className="flex items-start justify-between">
+            <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-semibold mb-2">Clear All History?</h3>
                 <p className="text-sm mb-1" style={{ color: '#FFA500' }}>
@@ -51,7 +51,7 @@ export default function ProfilePage() {
               </div>
               <button 
                 onClick={() => setShowClearConfirm(true)}
-                className="text-[#FFFFFF] bg-[#343A40] px-[8px] py-[8px] rounded-lg font-medium transition-colors whitespace-nowrap ml-4"
+                className="text-[#FFFFFF] bg-[#343A40] px-[10px] py-[10px] rounded-[10px] font-medium transition-colors whitespace-nowrap ml-4"
               >
                 Clear History
               </button>

@@ -13,7 +13,7 @@ export default function LoadingPage() {
           clearInterval(interval);
           // ✅ Navigate after small delay (optional)
           setTimeout(() => {
-            navigate("/Login"); // <-- replace with your route
+            navigate("/chat-box"); // <-- replace with your route
           }, 500);
           return 100;
         }

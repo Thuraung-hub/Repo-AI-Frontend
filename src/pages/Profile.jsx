@@ -75,7 +75,7 @@ export default function Profile() {
               <button
                 onClick={() => {
                   setShowClearConfirm(false);
-                  navigate('/chat', { state: { clear: true } }); // Fixed
+                  navigate('/chat-history', { state: { clear: true } }); // Fixed
                 }}
                 className="px-[15px] py-[3px] rounded-lg bg-[#FFA500] text-[#000000]"
               >

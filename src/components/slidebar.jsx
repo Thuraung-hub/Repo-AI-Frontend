@@ -46,7 +46,7 @@ export default function SidebarLayout({ children }) {
 
           {/* Chat History */}
           <button
-            onClick={() => navigate('/chat')}
+            onClick={() => navigate('/chat-history')}
             className={`
               border-none w-full justify-start flex items-center gap-4 py-[20px]  rounded-xl transition-colors 
               bg-[#212121]

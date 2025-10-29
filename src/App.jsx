@@ -38,11 +38,13 @@ export default function App() {
       <main className="main-area">
         <Routes>
            {/* Routes without sidebar */}
+           <Route path="/" element={<Login />} />
        <Route path="/login" element={<Login />} />
       <Route path="/loading" element={<Loading />} />
      
       
       {/* Routes with sidebar */}
+
       <Route path="/home" element={<SidebarLayout><Home /></SidebarLayout>} />
       <Route path="/chat-history" element={<SidebarLayout><ChatHistory /></SidebarLayout>} />
       <Route path="/init-chat" element={<SidebarLayout><InitChat /></SidebarLayout>} />

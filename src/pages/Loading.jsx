@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Coffee } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
 
 export default function LoadingPage() {
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate(); // ✅ get navigate function
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
+          // ✅ Navigate after small delay (optional)
+          setTimeout(() => {
+            navigate("/Login"); // <-- replace with your route
+          }, 500);
           return 100;
         }
         return prev + 1;
       });
     }, 50);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-[5%] text-[#FFFFFF]">
+    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-[5%] text-[#FFFFFF] animate-fade-in">
       <div className="text-center max-w-3xl w-full">
         {/* Coffee Icon */}
         <div className="mb-8 flex justify-center">
@@ -33,30 +40,27 @@ export default function LoadingPage() {
         </h1>
 
         {/* Status Message */}
-          <div className="flex justify-end m-[0px]">
-            <p className="text-gray-400 text-base mt-2">
-          {progress < 100 ? "Analyzing..." : "Analysis complete"}
-            </p>
-          </div>
+        <div className="flex justify-end m-[0px]">
+          <p className="text-gray-400 text-base mt-2">
+            {progress < 100 ? "Analyzing..." : "Analysis complete"}
+          </p>
+        </div>
 
         {/* Progress Section */}
         <div className="max-w-2xl mx-auto mb-4 flex items-center gap-4">
-          {/* Bar Container */}
           <div className="flex-1 bg-[#222222] rounded-full h-[15px] overflow-hidden my-[5px]">
             <div
-              className="h-full rounded-full transition-all duration-200 ease-linear bg-[#FFA500]"
+              className="h-full rounded-full transition-all duration-200 ease-linear bg-[#FFA500] shadow-[0_0_10px_#FFA500]"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
 
-          {/* Percentage */}
           <div className="ml-[10px] text-white text-sm font-semibold w-12 text-right">
             {progress}%
           </div>
         </div>
 
-        {/* text */}
-    
+        {/* Additional text */}
         <p className="text-lg text-[#FFA500] mb-8">
           Please wait while we analyze your repository. This may take a few minutes.
         </p>

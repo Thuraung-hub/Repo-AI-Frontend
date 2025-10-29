@@ -1,48 +1,68 @@
-import React from "react";
-import cup from "../photo/cup.png"; // ✅ Your logo
-export default function Login() {
+import React from 'react';
+
+export default function RepoAILogin() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#121212] text-center text-white px-4">
-      {/* Logo */}
-      <img
-        src={cup}
-        alt="RepoAI Logo"
-        className="w-[200px] h-[200px]  mb-6 object-contain"
-      />
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#000000' }}>
+      <div className="text-center">
+        {/* Coffee Cup Icon */}
+        <div className="flex justify-center mb-8">
+          <svg 
+            width="80" 
+            height="80" 
+            viewBox="0 0 100 100" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Cup body */}
+            <path 
+              d="M25 30 L20 80 C20 85 22 90 30 90 L70 90 C78 90 80 85 80 80 L75 30 Z" 
+              fill="#FFFFFF" 
+              stroke="#FFFFFF" 
+              strokeWidth="2"
+            />
+            {/* Cup lid */}
+            <ellipse cx="50" cy="30" rx="27" ry="5" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="2"/>
+            <ellipse cx="50" cy="27" rx="27" ry="4" fill="#121212"/>
+            
+            {/* Logo/Design on cup */}
+            <circle cx="50" cy="55" r="15" fill="#121212"/>
+            <path d="M42 55 L48 61 L58 48" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            <path d="M35 55 L42 55 M58 55 L65 55 M50 40 L50 47 M50 63 L50 70" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+        </div>
 
-      {/* Title */}
-      <h1 className="text-2xl font-semibold mb-2 text-[#FFFFFF]">Log in to RepoAI</h1>
+        {/* Title */}
+        <h1 className="text-4xl font-bold mb-4" style={{ color: '#FFFFFF' }}>
+          Log in to RepoAI
+        </h1>
 
-      {/* Description */}
-      <p className="text-sm text-[#FFFFFF] max-w-sm mb-8 leading-relaxed">
-        We use GitHub OAuth for secure and simple authentication. <br />
-        Your personal information is never stored on our servers.
-      </p>
+        {/* Description */}
+        <p className="mb-2" style={{ color: '#FFFFFF', opacity: 0.8 }}>
+          We use GitHub OAuth for secure and simple authentication.
+        </p>
+        <p className="mb-8" style={{ color: '#FFFFFF', opacity: 0.8 }}>
+          Your personal information is never stored on our servers.
+        </p>
 
-      {/* Button */}
-      <button className="flex items-center gap-2 bg-[#f6ad37] hover:bg-[#e39c20] text-black font-medium py-3 px-6 rounded-lg transition-all duration-200">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.26.82-.578 
-            0-.285-.01-1.04-.016-2.04-3.338.727-4.042-1.61-4.042-1.61-.547-1.388-1.335-1.758-1.335-1.758
-            -1.09-.744.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.835 2.808 1.305 3.492.998.107-.776.42-1.305.763-1.606
-            -2.665-.303-5.466-1.333-5.466-5.932 0-1.31.47-2.382 1.236-3.222-.124-.304-.536-1.523.118-3.176 0 0 1.008-.322 3.3 
-            1.23a11.52 11.52 0 013.003-.403c1.02.005 2.045.137 3.003.403 2.29-1.552 3.296-1.23 
-            3.296-1.23.656 1.653.244 2.872.12 3.176.77.84 1.236 1.912 1.236 3.222 
-            0 4.61-2.807 5.625-5.479 5.921.43.37.823 1.102.823 2.222 
-            0 1.606-.015 2.901-.015 3.293 0 .321.216.694.825.576C20.565 
-            21.796 24 17.298 24 12c0-6.627-5.373-12-12-12z"
-            clipRule="evenodd"
-          />
-        </svg>
-        Login with GitHub
-      </button>
+        {/* Login Button */}
+ <button 
+  className="px-[12px] py-[12px] rounded-[10px] bg-[#FFA500] flex items-center gap-3 mx-auto transition-all duration-200 hover:opacity-90"
+>
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <div className="mx-[8px] text-4xl font-extrabold">
+  Login with GitHub
+</div>
+
+        </button>
+      </div>
     </div>
   );
 }

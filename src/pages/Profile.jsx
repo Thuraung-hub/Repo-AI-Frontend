@@ -2,25 +2,24 @@ export default function Profile() {
   return (
     <div className="flex flex-col h-full bg-[#121212] text-white">
       {/* Profile Header */}
-      <div className="p-8 pb-6">
-        <h1 className="text-3xl font-bold text-[#FFFFFF]">Profile</h1>
-      </div>
+        <h1 className="text-3xl font-bold text-[#FFFFFF] m-[5%]">Profile</h1>
+      
       {/* Profile Content */}
       <div className="flex-1 px-8">
         <div className="max-w-2xl mx-auto">
           {/* Profile Card */}
           <div className="text-center mb-12">
-            <div className="w-20 h-20 rounded-full bg-orange-300 mx-auto mb-6 overflow-hidden">
+            <div className="w-20 h-20 rounded-full bg-white mx-auto mb-6 overflow-hidden rounded-[10px] bg-gray-800 p-4 text-white ">
               <img 
                 src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sophia" 
                 alt="Profile" 
-                className="w-[20%] h-[20%] object-cover"
+                className="w-[15%] h-[15%] object-cover"
               />
             </div>
             <h2 className="text-3xl font-bold mb-2">Sophia Chen</h2>
             <p className="text-[#FFA500] text-lg">GitHub User</p>
             
-            <button className="mt-6 bg-[#404040] hover:bg-neutral-600 px-24 py-3 rounded-lg font-medium w-[30%]">
+            <button className="mt-6 bg-[#404040] hover:bg-neutral-600 px-24 py-[5px] rounded-lg font-medium w-[30%]">
               Logout
             </button>
           </div>

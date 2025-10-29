@@ -8,36 +8,36 @@ export default function SidebarLayout({ children }) {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="min-h-screen flex text-white bg-[#212121]">
+    <div className="min-h-screen flex text-white bg-[#343A40]">
       
       {/* Sidebar */}
-      <aside className="w-80 p-6 bg-[#212121]">
+      <aside className="border-none w-[18%] p-6 bg-[#212121] flex flex-col">
         {/* Repo AI Header */}
         <div 
-          className="flex items-center gap-3 mb-8 cursor-pointer"
+          className=" border-none justify-start flex items-center gap-4 cursor-pointer h-[15%] mx-[2%]"
           onClick={() => navigate('/home')}
         >
-          <div className="w-12 h-12 flex items-center justify-center">
-            <Coffee className="w-8 h-8 text-white" />
+          <div className="w-12 h-12 flex items-center justify-center ml-[10%] mr-[15px]">
+            <Coffee className="w-8 h-8 color-white" />
           </div>
           <span className="text-xl font-semibold text-[#FFFFFF]">Repo AI</span>
         </div>
 
         {/* Navigation Items */}
-        <nav className="space-y-3">
+        <nav className="space-y-4 flex flex-col h-[30%] justify-evenly mx-[2%] mt-10">
           {/* New Chat */}
           <button
             onClick={() => navigate('/init-chat')}
             className={`
-              w-full flex items-center gap-4 p-4 rounded-xl transition-colors 
-              bg-[#212121] 
+              border-none w-full justify-start flex items-center gap-4 p-[20px] rounded-xl transition-colors 
+              bg-[#212121]
               ${isActive('/init-chat') || isActive('/home') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
             `}
           >
             <div className={`
-              w-10 h-10 flex items-center justify-center rounded-lg
-              bg-[#212121] 
-              ${isActive('/init-chat') || isActive('/home') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
+              w-10 h-10 flex items-center justify-center rounded-lg gap
+              bg-[#404040] mr-[10px]
+              ${isActive('/init-chat') || isActive('/home') ? 'bg-[#404040]' : 'hover:bg-[#343A40]'}
             `}>
               <Plus className="w-5 h-5" />
             </div>
@@ -48,15 +48,15 @@ export default function SidebarLayout({ children }) {
           <button
             onClick={() => navigate('/chat')}
             className={`
-              w-full flex items-center gap-4 p-4 rounded-xl transition-colors 
-              bg-[#212121] 
+              border-none w-full justify-start flex items-center gap-4 p-[20px]  rounded-xl transition-colors 
+              bg-[#212121]
               ${isActive('/chat') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
             `}
           >
             <div className={`
               w-10 h-10 flex items-center justify-center rounded-lg
-              bg-[#212121] 
-              ${isActive('/chat') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
+              bg-[#404040] mr-[10px]
+              ${isActive('/chat') ? 'bg-[#404040]' : 'hover:bg-[#343A40]'}
             `}>
               <Menu className="w-5 h-5" />
             </div>
@@ -67,14 +67,14 @@ export default function SidebarLayout({ children }) {
           <button
             onClick={() => navigate('/profile')}
             className={`
-              w-full flex items-center gap-4 p-4 rounded-xl transition-colors 
+              border-none w-full justify-start flex items-center gap-4 p-[20px] rounded-xl transition-colors 
               bg-[#212121] 
               ${isActive('/profile') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
             `}
           >
             <div className={`
               w-10 h-10 flex items-center justify-center rounded-lg
-              bg-[#212121] 
+              bg-[#404040] mr-[10px]
               ${isActive('/profile') ? 'bg-[#121212]' : 'hover:bg-[#343A40]'}
             `}>
               <User className="w-5 h-5" />

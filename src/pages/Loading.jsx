@@ -18,7 +18,7 @@ export default function LoadingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 text-[#FFFFFF]">
+    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-[5%] text-[#FFFFFF]">
       <div className="text-center max-w-3xl w-full">
         {/* Coffee Icon */}
         <div className="mb-8 flex justify-center">
@@ -32,30 +32,33 @@ export default function LoadingPage() {
           Analyzing your repository
         </h1>
 
-        {/* Subtext */}
-        <p className="text-lg text-gray-300 mb-8">
-          Please wait while we analyze your repository. This may take a few minutes.
-        </p>
+        {/* Status Message */}
+          <div className="flex justify-end m-[0px]">
+            <p className="text-gray-400 text-base mt-2">
+          {progress < 100 ? "Analyzing..." : "Analysis complete"}
+            </p>
+          </div>
 
         {/* Progress Section */}
         <div className="max-w-2xl mx-auto mb-4 flex items-center gap-4">
           {/* Bar Container */}
-          <div className="flex-1 bg-[#222222] rounded-full h-3 overflow-hidden">
+          <div className="flex-1 bg-[#222222] rounded-full h-[15px] overflow-hidden my-[5px]">
             <div
-              className="bg-[#FFA500] h-full rounded-full transition-all duration-200 ease-linear"
+              className="h-full rounded-full transition-all duration-200 ease-linear bg-[#FFA500]"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
 
           {/* Percentage */}
-          <div className="text-white text-sm font-semibold w-12 text-right">
+          <div className="ml-[10px] text-white text-sm font-semibold w-12 text-right">
             {progress}%
           </div>
         </div>
 
-        {/* Status Message */}
-        <p className="text-gray-400 text-base mt-2">
-          {progress < 100 ? "Analyzing..." : "Analysis complete!"}
+        {/* text */}
+    
+        <p className="text-lg text-[#FFA500] mb-8">
+          Please wait while we analyze your repository. This may take a few minutes.
         </p>
       </div>
     </div>

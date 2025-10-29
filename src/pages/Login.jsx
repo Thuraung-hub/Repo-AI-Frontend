@@ -37,16 +37,16 @@ export default function RepoAILogin() {
         </h1>
 
         {/* Description */}
-        <p className="mb-2" style={{ color: '#FFFFFF', opacity: 0.8 }}>
+        <p className="mb-[5px] text-[#FFFFFF]">
           We use GitHub OAuth for secure and simple authentication.
         </p>
-        <p className="mb-8" style={{ color: '#FFFFFF', opacity: 0.8 }}>
+        <p className="mb-[5px] mt-[0px] text-[#FFFFFF]">
           Your personal information is never stored on our servers.
         </p>
 
         {/* Login Button */}
  <button 
-  className="px-[12px] py-[12px] rounded-[10px] bg-[#FFA500] flex items-center gap-3 mx-auto transition-all duration-200 hover:opacity-90"
+  className="px-[12px] py-[12px] rounded-[10px] bg-[#FFA500] flex items-center gap-3 mx-auto my-[25px] transition-all duration-200 hover:opacity-90"
 >
           <svg 
             width="24" 

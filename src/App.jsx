@@ -11,11 +11,11 @@ import Preview from './pages/Preview'
 import Commit from './pages/Commit'
 import SidebarLayout from './components/slidebar'
 import './styles/app.css'
-import { ChatProvider } from './components/chatContent'
+
 
 export default function App() {
   return (
-   <ChatProvider>
+   
      <div className="app-root">
       <nav className="top-nav">
         <div className="nav-left">Repo-AI</div>
@@ -51,6 +51,6 @@ export default function App() {
         </Routes>
       </main>
     </div>
-   </ChatProvider>
+  
   )
 }

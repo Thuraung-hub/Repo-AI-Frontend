@@ -1,12 +1,11 @@
 // tailwind.config.js
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
-    extend: {
-      animation: {
-        'spin-slow': 'spin 3s linear infinite', // slower than default
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

@@ -8,15 +8,15 @@ export default function ProfilePage() {
     <div className="flex h-screen bg-[#121212] text-[#FFFFFF]">
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto mx-[5%]" >
-        <div className="max-w-3xl mx-auto p-8">
+      <div className="flex-1 overflow-auto" >
+        <div className="max-w-3xl mx-auto py-12">
           <h1 className="text-3xl text- white font-bold">Profile</h1>
 
           {/* Profile Card */}
           <div className="rounded-lg p-8 my-[40px]">
             <div className="flex flex-col items-center">
               {/* Avatar */}
-              <div className="w-[20%] h-[20%] rounded-full mb-4 overflow-hidden bg-[#FFC285] m-[10px]">
+              <div className="w-[20%] h-[20%] rounded-full mb-4 overflow-hidden bg-[#FFC285] my-4">
                 <img 
                   src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sophia" 
                   alt="Profile" 
@@ -25,8 +25,8 @@ export default function ProfilePage() {
               </div>
 
               {/* Name and Role */}
-              <h2 className="text-2xl  text-white font-semibold">Sophia Chen</h2>
-              <p className="text-[#FFA500] mt-[0px]">GitHub User</p>
+              <h2 className="text-2xl  text-white font-semibold mt-8 mb-4">Sophia Chen</h2>
+              <p className="text-[#FFA500] mb-4">GitHub User</p>
 
               {/* Logout Button */}
               <button 
@@ -51,7 +51,7 @@ export default function ProfilePage() {
               </div>
               <button 
                 onClick={() => setShowClearConfirm(true)}
-                className="text-[#FFFFFF] bg-[#343A40] px-[10px] py-[10px] rounded-[10px] font-medium transition-colors whitespace-nowrap ml-4"
+                className="text-[#FFFFFF] bg-[#343A40] p-[8px] rounded-[10px] font-medium transition-colors whitespace-nowrap"
               >
                 Clear History
               </button>

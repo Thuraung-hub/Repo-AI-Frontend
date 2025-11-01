@@ -40,7 +40,7 @@ export default function RepoSelector() {
       {/* Sidebar */}
       
       {/* Main Content */}
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-[5%]">
         {step === 1 ? (
           <>
             {/* Step 1: Select Repository */}
@@ -53,13 +53,13 @@ export default function RepoSelector() {
             </div>
 
             <div className="relative mb-6">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 mr-5" size={20} />
               <input
                 type="text"
                 placeholder="Find repositories"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-zinc-900 text-white pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full bg-[#212121] border-none text-white p-4 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#FFA500] pl-[40px]"
               />
             </div>
 

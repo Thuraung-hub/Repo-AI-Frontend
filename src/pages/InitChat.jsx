@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Plus, Menu, User, ChevronDown } from 'lucide-react';
 
 export default function RepoSelector() {
+   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [selectedRepo, setSelectedRepo] = useState(null);
   const [selectedBranch, setSelectedBranch] = useState('');
@@ -31,7 +33,7 @@ export default function RepoSelector() {
 
   const handleStartRefactoring = () => {
     if (selectedBranch) {
-      alert(`Starting refactoring on ${selectedRepo.name} - Branch: ${selectedBranch}`);
+      navigate('/loading', { state: { repo: selectedRepo, branch: selectedBranch } });
     }
   };
 

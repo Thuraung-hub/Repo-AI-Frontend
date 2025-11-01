@@ -1,7 +1,9 @@
 import React from 'react';
-import { Coffee } from 'lucide-react';
 
+import { Coffee } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'd8c9b41c64254e07c7fb1c07f005e33e0b5c36bb
 export default function RepoAILogin() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#000000' }}>
       <div className="text-center">
@@ -24,7 +26,7 @@ export default function RepoAILogin() {
         </p>
 
         {/* Login Button */}
- <button 
+ <button  onClick={() => navigate('/home')}
   className="px-3 py-1 rounded-[10px] bg-[#FFA500] flex items-center gap-1 mx-auto my-[25px] transition-all duration-200 hover:opacity-90"
 >
           <svg 

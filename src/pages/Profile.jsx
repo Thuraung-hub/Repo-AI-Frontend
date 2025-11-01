@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Menu, Plus, User, MessageSquare } from 'lucide-react';
+import React, { useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function ProfilePage() {
+export default function Profile() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const navigate = useNavigate(); // ✅ Correct hook usage
 
   return (
     <div className="flex h-screen bg-[#121212] text-[#FFFFFF]">
+
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto" >
@@ -34,7 +36,19 @@ export default function ProfilePage() {
               >
                 Logout
               </button>
+
             </div>
+
+            <h2 className="text-2xl text-white font-semibold">Sophia Chen</h2>
+            <p className="text-[#FFA500] mt-[0px]">GitHub User</p>
+
+            {/* ✅ Logout works now */}
+            <button
+              onClick={() => navigate('/login')}
+              className="my-[10px] bg-[#343A40] text-[#FFFFFF] w-[50%] max-w-md py-[1%] rounded-[10px] font-medium transition-colors"
+            >
+              Logout
+            </button>
           </div>
 
           {/* Clear History Section */}
@@ -56,6 +70,12 @@ export default function ProfilePage() {
                 Clear History
               </button>
             </div>
+            <button
+              onClick={() => setShowClearConfirm(true)}
+              className="text-[#FFFFFF] bg-[#343A40] px-[10px] py-[10px] rounded-[10px] font-medium"
+            >
+              Clear History
+            </button>
           </div>
         </div>
       </div>
@@ -63,25 +83,27 @@ export default function ProfilePage() {
       {/* Clear Confirmation Modal */}
       {showClearConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="rounded-lg p-6 max-w-md w-full mx-4 bg-[#212121] py-[5%] px-[5%] ">
+          <div className="rounded-lg p-6 max-w-md w-full bg-[#212121]">
             <h3 className="text-xl font-semibold mb-4">Confirm Clear History</h3>
             <p className="text-gray-300 mb-6">
-              Are you sure you want to delete all 5 refactoring sessions? This action cannot be undone.
+              Are you sure you want to delete all refactoring sessions? This action cannot be undone.
             </p>
             <div className="flex gap-3 justify-end">
-              <button 
+              <button
                 onClick={() => setShowClearConfirm(false)}
-                className="px-[30px] py-[3px] m-[5px] rounded-lg transition-colors bg-[#343A40] text-[#FFFFFF]"
+                className="px-[30px] py-[3px] rounded-lg bg-[#343A40] text-[#FFFFFF]"
               >
                 Cancel
               </button>
-              <button 
+
+              {/* ❌ Original Error: you did not navigate to /chat, so ChatHistory never knew to clear */}
+              {/* ✅ FIX: Added navigate with state to tell ChatHistory to clear sessions */}
+              <button
                 onClick={() => {
                   setShowClearConfirm(false);
-                  // Add clear logic here
+                  navigate('/chat-history', { state: { clear: true } }); // Fixed
                 }}
-                className="px-[15px] py-[3px] m-[5px] rounded-lg transition-colors bg-[#FFA500] text-[#000000]"
-
+                className="px-[15px] py-[3px] rounded-lg bg-[#FFA500] text-[#000000]"
               >
                 Clear History
               </button>

@@ -31,18 +31,8 @@ export default function Profile() {
               <p className="text-[#FFA500] mb-4">GitHub User</p>
 
               {/* Logout Button */}
-              <button 
-                className="my-[10px] bg-[#343A40] text-[#FFFFFF] w-[50%] max-w-md py-[1%] m-10px rounded-[10px] font-medium transition-colors"
-              >
-                Logout
-              </button>
-
-            </div>
-
-            <h2 className="text-2xl text-white font-semibold">Sophia Chen</h2>
-            <p className="text-[#FFA500] mt-[0px]">GitHub User</p>
-
-            {/* ✅ Logout works now */}
+             
+{/* ✅ Logout works now */}
             <button
               onClick={() => navigate('/login')}
               className="my-[10px] bg-[#343A40] text-[#FFFFFF] w-[50%] max-w-md py-[1%] rounded-[10px] font-medium transition-colors"
@@ -50,6 +40,12 @@ export default function Profile() {
               Logout
             </button>
           </div>
+
+            </div>
+
+            
+
+            
 
           {/* Clear History Section */}
           <div className="rounded-lg p-6">
@@ -70,47 +66,44 @@ export default function Profile() {
                 Clear History
               </button>
             </div>
-            <button
-              onClick={() => setShowClearConfirm(true)}
-              className="text-[#FFFFFF] bg-[#343A40] px-[10px] py-[10px] rounded-[10px] font-medium"
-            >
-              Clear History
-            </button>
+          
           </div>
         </div>
       </div>
 
       {/* Clear Confirmation Modal */}
-      {showClearConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="rounded-lg p-6 max-w-md w-full bg-[#212121]">
-            <h3 className="text-xl font-semibold mb-4">Confirm Clear History</h3>
-            <p className="text-gray-300 mb-6">
-              Are you sure you want to delete all refactoring sessions? This action cannot be undone.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowClearConfirm(false)}
-                className="px-[30px] py-[3px] rounded-lg bg-[#343A40] text-[#FFFFFF]"
-              >
-                Cancel
-              </button>
+     {showClearConfirm && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="rounded-lg p-6 max-w-md w-full bg-[#212121]">
+      <h3 className="text-xl font-semibold mb-4">Confirm Clear History</h3>
+      <p className="text-gray-300 mb-6">
+        Are you sure you want to delete all refactoring sessions? This action cannot be undone.
+      </p>
+      
+      <div className="flex gap-3 justify-end">
+        {/* ❌ Cancel Button */}
+        <button
+          onClick={() => setShowClearConfirm(false)}
+          className="px-[15px] py-[3px] rounded-lg bg-gray-600 text-white hover:bg-gray-500 transition"
+        >
+          Cancel
+        </button>
 
-              {/* ❌ Original Error: you did not navigate to /chat, so ChatHistory never knew to clear */}
-              {/* ✅ FIX: Added navigate with state to tell ChatHistory to clear sessions */}
-              <button
-                onClick={() => {
-                  setShowClearConfirm(false);
-                  navigate('/chat-history', { state: { clear: true } }); // Fixed
-                }}
-                className="px-[15px] py-[3px] rounded-lg bg-[#FFA500] text-[#000000]"
-              >
-                Clear History
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        {/* ✅ Clear History Button */}
+        <button
+          onClick={() => {
+            setShowClearConfirm(false);
+            navigate('/chat-history', { state: { clear: true } });
+          }}
+          className="px-[15px] py-[3px] rounded-lg bg-[#FFA500] text-[#000000] hover:bg-[#ffb733] transition"
+        >
+          Clear History
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

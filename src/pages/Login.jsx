@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Coffee } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'd8c9b41c64254e07c7fb1c07f005e33e0b5c36bb
+import { useNavigate } from 'react-router-dom';
 export default function RepoAILogin() {
   const navigate = useNavigate();
   return (

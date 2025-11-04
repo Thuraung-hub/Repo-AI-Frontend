@@ -1,25 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { Coffee } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
+import { useNavigate } from "react-router-dom";
+//import { repoData } from "../config/repoData"; // ✅ import centralized variables
 
-export default function LoadingPage() {
+export default function Loading() {
   const [progress, setProgress] = useState(0);
-  const navigate = useNavigate(); // ✅ get navigate function
+  const navigate = useNavigate();
+  // src/config/repoData.js
+const repoData = {
+  repoName: "Awesome-Repo",
+  branch: "main",
+  analysisTime: 100, // milliseconds per progress step (adjust as needed)
+  nextRoute: "/chat-box", // route to navigate after analysis
+  messages: {
+    loading: "Analyzing...",
+    complete: "Analysis complete",
+    waiting: "Please wait while we analyze your repository. This may take a few minutes."
+  }
+};
+
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          // ✅ Navigate after small delay (optional)
           setTimeout(() => {
-            navigate("/chat-box"); // <-- replace with your route
+            navigate(repoData.nextRoute); // ✅ use centralized route
           }, 500);
           return 100;
         }
         return prev + 1;
       });
-    }, 50);
+    }, repoData.analysisTime); // ✅ configurable speed
 
     return () => clearInterval(interval);
   }, [navigate]);
@@ -36,13 +49,15 @@ export default function LoadingPage() {
 
         {/* Title */}
         <h1 className="text-4xl font-bold mb-4">
-          Analyzing your repository
+          Analyzing your repository: <br /> 
+          <h2>{repoData.repoName}</h2> 
+          <h3>({repoData.branch})</h3>
         </h1>
 
         {/* Status Message */}
         <div className="flex justify-end m-[0px]">
           <p className="text-gray-400 text-base mt-2">
-            {progress < 100 ? "Analyzing..." : "Analysis complete"}
+            {progress < 100 ? repoData.messages.loading : repoData.messages.complete}
           </p>
         </div>
 
@@ -62,7 +77,7 @@ export default function LoadingPage() {
 
         {/* Additional text */}
         <p className="text-lg text-[#FFA500] mb-8">
-          Please wait while we analyze your repository. This may take a few minutes.
+          {repoData.messages.waiting}
         </p>
       </div>
     </div>

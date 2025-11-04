@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SidebarLayout from "../components/slidebar";
 import ChatMessages from "../components/ChatMessages";
 import ChatInput from "../components/ChatInput";
@@ -7,8 +7,10 @@ import RefactorPreviewModal from "./Preview";
 function ChatBox() {
   const [chatMessages, setChatMessages] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [activeRefactorMsgId, setActiveRefactorMsgId] = useState(null);
+  const chatEndRef = useRef(null); // ✅ ref for auto-scroll
 
-  // Hardcoded example codes
+  // Hardcoded example codes (later from backend)
   const originalCode = `data = request.get_json()
 # Process the data
 result = process_input(data['input'])
@@ -23,7 +25,7 @@ return jsonify({'status': 'success','result': result}), 200
 except BadRequest as e:
     logger.warning(f"Bad request: {str(e)}")`;
 
-  // Start with greeting
+  // 👋 Initial greeting
   useEffect(() => {
     setChatMessages([
       {
@@ -34,51 +36,95 @@ except BadRequest as e:
     ]);
   }, []);
 
+  // ✅ Auto-scroll to bottom whenever chatMessages change
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatMessages]);
+
+  // 🧠 Handle user input
   const handleUserInput = (text) => {
-    const userMessage = { message: text, sender: "user", id: crypto.randomUUID() };
-    setChatMessages((prev) => [...prev, userMessage]);
+    const userMsg = { message: text, sender: "user", id: crypto.randomUUID() };
+    setChatMessages((prev) => [...prev, userMsg]);
 
-    // Condition to trigger refactor popup
-    if (text.toLowerCase().includes("improve")) {
-      setShowModal(true);
-    
-      return;
-    }
-
-    // Normal replies
     const lowerText = text.toLowerCase();
-    let aiResponse = "I'm here to help you.";
+    let aiMsg = null;
 
-    if (["hi", "hey", "hello"].includes(lowerText)) {
-      aiResponse = "Hey there! 👋 How can I assist you today?";
+    if (lowerText.includes("improve")) {
+      aiMsg = {
+        message:
+          "I've analyzed your code and prepared a refactored version. Click below to preview it.",
+        sender: "robot",
+        id: crypto.randomUUID(),
+        action: "showPreview",
+      };
+      setActiveRefactorMsgId(aiMsg.id);
+    } else if (lowerText.includes("commit") && lowerText.includes("push")) {
+      aiMsg = {
+        message: "✅ New branch created and changes committed successfully!",
+        sender: "robot",
+        id: crypto.randomUUID(),
+      };
+    } else if (["hi", "hey", "hello"].includes(lowerText)) {
+      aiMsg = {
+        message: "Hey there! 👋 How can I assist you today?",
+        sender: "robot",
+        id: crypto.randomUUID(),
+      };
     } else {
-      aiResponse = `You said: "${text}"`;
+      aiMsg = {
+        message: `You said: "${text}"`,
+        sender: "robot",
+        id: crypto.randomUUID(),
+      };
     }
 
-    setChatMessages((prev) => [
-      ...prev,
-      { message: aiResponse, sender: "robot", id: crypto.randomUUID() },
-    ]);
+    setChatMessages((prev) => [...prev, aiMsg]);
   };
 
+  // 🧩 Handle “Show Preview” button click
+  const handleShowPreview = (msgId) => {
+    setActiveRefactorMsgId(msgId);
+    setShowModal(true);
+  };
+
+  // 💾 Handle “Accept and Save”
   const handleAcceptAndSave = () => {
     const userMsg = {
       message: "Accept and Save",
       sender: "user",
       id: crypto.randomUUID(),
     };
-    setChatMessages((prev) => [...prev, userMsg]);
+    setChatMessages((prev) => [
+      ...prev,
+      userMsg,
+      {
+        message: "✅ Refactored code accepted and saved!",
+        sender: "robot",
+        id: crypto.randomUUID(),
+      },
+    ]);
     console.log("Refactored code logged:", refactoredCode);
     setShowModal(false);
   };
 
+  // ❌ Handle “Cancel”
   const handleCancel = () => {
     const userMsg = {
       message: "Cancel",
       sender: "user",
       id: crypto.randomUUID(),
     };
-    setChatMessages((prev) => [...prev, userMsg]);
+    setChatMessages((prev) => [
+      ...prev,
+      userMsg,
+      {
+        message: "❌ Refactor preview closed.",
+        sender: "robot",
+        id: crypto.randomUUID(),
+      },
+    ]);
     console.log("Original code logged:", originalCode);
     setShowModal(false);
   };
@@ -87,11 +133,30 @@ except BadRequest as e:
     <SidebarLayout>
       <div className="flex flex-col h-screen bg-[#0d0d0d] text-white">
         {/* Scrollable chat area */}
-        <div className="flex-1 overflow-y-auto no-scrollbar px-6 py-6">
-          <ChatMessages chatMessages={chatMessages} />
+        <div className="flex-1 overflow-y-auto no-scrollbar px-6 py-6 space-y-4">
+          {chatMessages.map((msg) => (
+            <div key={msg.id} className="flex flex-col">
+              <ChatMessages chatMessages={[msg]} />
+
+              {/* Inline preview button only for AI refactor messages */}
+              {msg.sender === "robot" && msg.action === "showPreview" && (
+                <div className="flex justify-start mt-2 ml-12">
+                  <button
+                    onClick={() => handleShowPreview(msg.id)}
+                    className="bg-[#FFA500] text-black font-semibold px-5 py-2 rounded-lg hover:bg-[#ffb733] transition-all duration-200"
+                  >
+                    Show Refactor Preview
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* ✅ Invisible scroll target for auto-scroll */}
+          <div ref={chatEndRef} />
         </div>
 
-        {/* Fixed input at bottom */}
+        {/* Input at bottom */}
         <div className="sticky bottom-0 w-full">
           <ChatInput
             chatMessages={chatMessages}
@@ -100,7 +165,7 @@ except BadRequest as e:
           />
         </div>
 
-        {/* Popup modal */}
+        {/* Popup Modal */}
         {showModal && (
           <RefactorPreviewModal
             originalCode={originalCode}

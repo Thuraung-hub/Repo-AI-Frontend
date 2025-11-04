@@ -49,7 +49,7 @@ export default function App() {
       <Route path="/chat-history" element={<SidebarLayout><ChatHistory /></SidebarLayout>} />
       <Route path="/init-chat" element={<SidebarLayout><InitChat /></SidebarLayout>} />
       <Route path="/profile" element={<SidebarLayout><Profile /></SidebarLayout>} />
-      <Route path="/chat-box" element={<SidebarLayout><ChatBox /></SidebarLayout>} />
+      <Route path="/chat-box" element={<ChatBox />} />
       <Route path="/preview" element={<SidebarLayout><Preview /></SidebarLayout>} />
       <Route path="/commit" element={<SidebarLayout><Commit /></SidebarLayout>} />
         </Routes>

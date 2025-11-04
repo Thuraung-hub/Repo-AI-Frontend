@@ -41,6 +41,7 @@ except BadRequest as e:
     // Condition to trigger refactor popup
     if (text.toLowerCase().includes("improve")) {
       setShowModal(true);
+    
       return;
     }
 

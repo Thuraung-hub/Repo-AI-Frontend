@@ -23,3 +23,4 @@ export function ChatProvider({ children }) {
 export function useChat() {
   return useContext(ChatContext);
 }
+// Example component using the ChatContext

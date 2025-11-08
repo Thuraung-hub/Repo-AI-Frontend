@@ -12,7 +12,6 @@ export default function SidebarLayout({ children }) {
       
       {/* Sidebar */}
       <aside className="border-none w-[22%] pr-2 bg-[#212121] flex flex-col">
-        {/* Repo AI Header */}
         <div 
           className=" border-none justify-center flex items-center cursor-pointer h-[18%]"
           onClick={() => navigate('/home')}
@@ -23,9 +22,7 @@ export default function SidebarLayout({ children }) {
           <span className="text-xl font-[900] text-[#FFFFFF]">Repo AI</span>
         </div>
 
-        {/* Navigation Items */}
         <nav className="space-y-2 flex flex-col h-[40%] justify-evenly">
-          {/* New Chat */}
           <button
             onClick={() => navigate('/init-chat')}
             className={`
@@ -44,7 +41,6 @@ export default function SidebarLayout({ children }) {
             <span className="font-medium text-[#FFFFFF]">New Chat</span>
           </button>
 
-          {/* Chat History */}
           <button
             onClick={() => navigate('/chat-history')}
             className={`
@@ -63,7 +59,6 @@ export default function SidebarLayout({ children }) {
             <span className="font-medium text-[#FFFFFF]">Chat History</span>
           </button>
 
-          {/* Profile */}
           <button
             onClick={() => navigate('/profile')}
             className={`

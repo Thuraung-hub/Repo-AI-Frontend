@@ -18,7 +18,7 @@ export default function App() {
   return (
    
      <div className="app-root">
-      <nav className="top-nav">
+      {/* <nav className="top-nav">
         <div className="nav-left">Repo-AI</div>
         <div className="nav-links">
           
@@ -33,7 +33,7 @@ export default function App() {
           <Link to="/commit">Commit</Link>
           
         </div>
-      </nav>
+      </nav> */}
 
       <main className="main-area">
         <Routes>

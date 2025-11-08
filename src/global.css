@@ -40,5 +40,5 @@ body {
 }
 .top-nav .nav-links a { margin-left: 12px; text-decoration: none; color: var(--muted); font-size: 14px; }
 
-.main-area { padding: 28px; flex: 1; }
+.main-area { padding: 0px; flex: 1; }
 .empty-box { background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%); border: 1px dashed rgba(0,0,0,0.06); border-radius: 8px; min-height: 120px; display: flex; align-items: center; justify-content: center; color: var(--muted); }

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ClearHistoryModal from "../components/ClearHistoryModel";// ✅ import modal
+import ClearHistoryModal from "../components/ClearHistoryModel"; // ✅ import modal
+import { useLogout } from "../libs/hooks/auth/mutation";
 
 export default function Profile() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
-  const navigate = useNavigate();
+  const logout = useLogout(); 
 
   // ✅ Centralized user data (can replace later with backend data)
   const userData = {
@@ -37,7 +38,7 @@ export default function Profile() {
               <p className="text-[#FFA500] mb-6">{userData.role}</p>
 
               <button
-                onClick={() => navigate("/login")}
+                onClick={() => logout.mutate()}
                 className="my-[10px] bg-[#343A40] text-[#FFFFFF] w-[50%] max-w-md py-[1%] rounded-[10px] font-medium transition-colors"
               >
                 Logout
@@ -49,9 +50,12 @@ export default function Profile() {
           <div className="rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-semibold mb-2">Clear All History?</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  Clear All History?
+                </h3>
                 <p className="text-sm mb-1" style={{ color: "#FFA500" }}>
-                  This will permanently delete all {userData.historyCount} refactoring sessions.
+                  This will permanently delete all {userData.historyCount}{" "}
+                  refactoring sessions.
                 </p>
                 <p className="text-sm" style={{ color: "#FFA500" }}>
                   This action cannot be undone.

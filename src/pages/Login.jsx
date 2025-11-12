@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+// Configurable backend OAuth login URL (fallback keeps current behavior)
+
+import { useAuthStatus } from '../libs/hooks/auth/queries';
+const LOGIN_URL = import.meta.env.VITE_LOGIN_URL || 'http://localhost:8081/api/auth/login';
 
 import { Coffee } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 export default function RepoAILogin() {
-  const navigate = useNavigate();
+  const { data, isLoading } = useAuthStatus();
+
+  // If already authenticated, redirect away from login
+  useEffect(() => {
+    if (!isLoading && (data?.authenticated === true || data?.username)) {
+      window.location.replace('/home');
+    }
+  }, [isLoading, data]);
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#000000' }}>
       <div className="text-center">
@@ -21,12 +32,12 @@ export default function RepoAILogin() {
         <p className="mb-1 text-[#FFFFFF]">
           We use GitHub OAuth for secure and simple authentication.
         </p>
-        <p className="mb-16 mt-[0px] text-[#FFFFFF]">
+  <p className="mb-16 mt-0 text-[#FFFFFF]">
           Your personal information is never stored on our servers.
         </p>
 
-        {/* Login Button */}
- <button  onClick={() => navigate('/home')}
+         {/* Login Button */}
+         <button  onClick={() => { window.location.href = LOGIN_URL; }}
   className="px-3 py-1 rounded-[10px] bg-[#FFA500] flex items-center gap-1 mx-auto my-[25px] transition-all duration-200 hover:opacity-90"
 >
           <svg 

@@ -11,6 +11,7 @@ import  ChatBox from './pages/ChatBox'
 import Preview from './pages/Preview'
 import Commit from './pages/Commit'
 import SidebarLayout from './components/slidebar'
+import RequireAuth from './components/RequireAuth'
 import './styles/app.css'
 
 
@@ -45,13 +46,13 @@ export default function App() {
       
       {/* Routes with sidebar */}
 
-      <Route path="/home" element={<SidebarLayout><Home /></SidebarLayout>} />
-      <Route path="/chat-history" element={<SidebarLayout><ChatHistory /></SidebarLayout>} />
-      <Route path="/init-chat" element={<SidebarLayout><InitChat /></SidebarLayout>} />
-      <Route path="/profile" element={<SidebarLayout><Profile /></SidebarLayout>} />
-      <Route path="/chat-box" element={<ChatBox />} />
-      <Route path="/preview" element={<SidebarLayout><Preview /></SidebarLayout>} />
-      <Route path="/commit" element={<SidebarLayout><Commit /></SidebarLayout>} />
+  <Route path="/home" element={<RequireAuth><SidebarLayout><Home /></SidebarLayout></RequireAuth>} />
+  <Route path="/chat-history" element={<RequireAuth><SidebarLayout><ChatHistory /></SidebarLayout></RequireAuth>} />
+  <Route path="/init-chat" element={<RequireAuth><SidebarLayout><InitChat /></SidebarLayout></RequireAuth>} />
+  <Route path="/profile" element={<RequireAuth><SidebarLayout><Profile /></SidebarLayout></RequireAuth>} />
+  <Route path="/chat-box" element={<RequireAuth><ChatBox /></RequireAuth>} />
+  <Route path="/preview" element={<RequireAuth><SidebarLayout><Preview /></SidebarLayout></RequireAuth>} />
+  <Route path="/commit" element={<RequireAuth><SidebarLayout><Commit /></SidebarLayout></RequireAuth>} />
         </Routes>
       </main>
     </div>

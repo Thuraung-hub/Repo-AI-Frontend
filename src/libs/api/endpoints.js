@@ -3,7 +3,7 @@
 // Example usage: api.get(ENDPOINTS.USER) or api.post(ENDPOINTS.REPOS, body)
 
 export const ENDPOINTS = Object.freeze({
-  USER: 'user', // current authenticated user session/profile
+  USER: 'api/user/profile', // current authenticated user session/profile
   REPOS: 'repos',
   AUTH: {
     STATUS: 'api/auth/status',

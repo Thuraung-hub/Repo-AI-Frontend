@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { usePost } from '../../api/api';
 import { ENDPOINTS } from '../../api/endpoints';
+import { useUser } from '../../stores/useUser';
 
 /**
  * useLogout
@@ -14,6 +15,7 @@ import { ENDPOINTS } from '../../api/endpoints';
 export function useLogout(options = {}) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const clearUser = useUser((s) => s.clearUser);
 
   return usePost(ENDPOINTS.AUTH.LOGOUT, {
     ...options,
@@ -21,6 +23,13 @@ export function useLogout(options = {}) {
       // Remove or invalidate relevant auth-related queries
       queryClient.removeQueries({ queryKey: [ENDPOINTS.USER] });
       queryClient.removeQueries({ queryKey: [ENDPOINTS.AUTH.STATUS] });
+
+      // Clear any persisted user information (Zustand + localStorage)
+      try {
+        clearUser();
+      } catch (_) {
+        // no-op
+      }
 
       // Optional: navigate or perform extra side-effects here (caller can do in their onSuccess)
       if (typeof options.onSuccess === 'function') {

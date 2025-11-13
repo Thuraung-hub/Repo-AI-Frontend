@@ -18,3 +18,9 @@ export function useAuthStatus(options = {}) {
 export function useCurrentUser(options = {}) {
   return useGetQuery(ENDPOINTS.USER, undefined, { ...DEFAULT_OPTIONS, ...options });
 }
+
+// Initiate login endpoint via GET (note: many backends expect a browser redirect instead)
+// Useful if your backend returns JSON with a login URL or status.
+export function useAuthLogin(options = {}) {
+  return useGetQuery(ENDPOINTS.AUTH.LOGIN, undefined, { ...DEFAULT_OPTIONS, ...options });
+}

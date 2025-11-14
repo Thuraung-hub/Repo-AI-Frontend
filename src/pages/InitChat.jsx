@@ -4,9 +4,10 @@ import { Search, Plus, Menu, User, ChevronDown } from "lucide-react";
 import { useReposFromSync } from "../libs/hooks/repos/queries";
 import { useBranchesList } from "../libs/hooks/branches/queries";
 import { useProfile } from "../libs/hooks/profile/queries";
-import { api } from "../libs/api/api";
-import { ENDPOINTS } from "../libs/api/endpoints";
 import { useSyncBranchesAndRefreshMutation } from "../libs/hooks/branches/mutation";
+import { useSession } from "../libs/stores/useSession";
+import { useUser } from "../libs/stores/useUser";
+import { useCreateConversation } from "../libs/hooks/conversations/mutation";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function RepoSelector() {
@@ -20,10 +21,14 @@ export default function RepoSelector() {
   const [syncingBranches, setSyncingBranches] = useState(false);
   const [syncBranchesError, setSyncBranchesError] = useState(null);
   const syncBranches = useSyncBranchesAndRefreshMutation();
+  const createConversation = useCreateConversation();
+  const user = useUser((s) => s.user);
+  const [creatingConversation, setCreatingConversation] = useState(false);
+  const currentBranch = useSession((s) => s.currentBranch);
 
   // hydrate user/profile (optional) and fetch repositories via sync endpoint
   useProfile();
-  // Call the sync endpoint which returns the updated repositories list.
+  // Fetch repositories list (we sync branches separately when selecting a repo)
   const {
     data: repositories = [],
     isLoading: reposLoading,
@@ -83,11 +88,47 @@ export default function RepoSelector() {
   };
 
   const handleStartRefactoring = () => {
-    if (selectedBranch) {
-      navigate("/loading", {
-        state: { repo: selectedRepo, branch: selectedBranch },
-      });
-    }
+    // Moved conversation creation here: when the user confirms, create the
+    // conversation on the server, persist it to session, then navigate.
+    (async () => {
+      if (!selectedBranch) return;
+      setCreatingConversation(true);
+      try {
+  const repoId = selectedRepo?.id || selectedRepo?.repo_id || null;
+  // prefer the persisted branch object's id from session, fall back to selectedBranch (name)
+  const branchId = currentBranch?.id || selectedBranch;
+        const repoName = selectedRepo?.name || selectedRepo?.full_name || '';
+        const dateStr = new Date().toISOString().split('T')[0];
+        const title = `${repoName} - ${selectedBranch} - ${dateStr}`;
+        const payload = {
+          repoId,
+          branchId,
+          title,
+          goal: '',
+          githubId: user?.githubId || user?.id || user?.github_id || user?.node_id || null,
+        };
+
+        const res = await createConversation.mutateAsync(payload);
+        // store created conversation in session
+        if (res && res.data) {
+          useSession.getState().setCurrentConversation(res.data);
+        } else if (res) {
+          useSession.getState().setCurrentConversation(res);
+        }
+
+        navigate("/loading", {
+          state: { repo: selectedRepo, branch: selectedBranch },
+        });
+      } catch (err) {
+        console.error('Create conversation failed', err);
+        // still navigate to loading so user flow isn't blocked; change if desired
+        navigate("/loading", {
+          state: { repo: selectedRepo, branch: selectedBranch },
+        });
+      } finally {
+        setCreatingConversation(false);
+      }
+    })();
   };
 
   console.log("Selected Repo:", selectedRepo);
@@ -215,7 +256,21 @@ export default function RepoSelector() {
               <div className="relative max-w-2xl">
                 <select
                   value={selectedBranch}
-                  onChange={(e) => setSelectedBranch(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSelectedBranch(val);
+                    // persist selection to session store and localStorage
+                    if (selectedRepo) {
+                      useSession.getState().setCurrentRepo(selectedRepo);
+                      // find branch object from branches list when possible and persist full object
+                      const found = (branches || []).find((b) => {
+                        if (typeof b === 'string') return b === val;
+                        const name = b.name || b.ref || (b?.branchName) || JSON.stringify(b);
+                        return name === val;
+                      });
+                      useSession.getState().setCurrentBranch(found || { name: val });
+                    }
+                  }}
                   className="w-full bg-zinc-900 text-white px-4 py-4 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
                 >
                   <option value="">Select a branch</option>
@@ -250,14 +305,14 @@ export default function RepoSelector() {
               </button>
               <button
                 onClick={handleStartRefactoring}
-                disabled={!selectedBranch}
+                disabled={!selectedBranch || creatingConversation}
                 className={`px-8 py-3 rounded-lg font-medium transition ${
-                  selectedBranch
+                  selectedBranch && !creatingConversation
                     ? "bg-orange-500 hover:bg-orange-600 text-black"
                     : "bg-zinc-800 text-zinc-600 cursor-not-allowed"
                 }`}
               >
-                Start Refactoring
+                {creatingConversation ? 'Creating...' : 'Start Refactoring'}
               </button>
             </div>
           </>

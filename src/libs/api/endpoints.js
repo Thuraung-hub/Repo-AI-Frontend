@@ -24,10 +24,14 @@ export const ENDPOINTS = Object.freeze({
     LIST: (repoId) => `api/repos/${repoId}/branches`,
     SYNC_BRANCHES: (owner, repo) => `api/github/${owner}/${repo}/branches/sync`,
   },
-  CHAT: 'api/chat/sessions',
-  CHAT_SESSION_DETAIL: (id) => `api/chat/sessions/${id}`,
-  COMMITS: 'api/commits',
-  COMMIT_DETAIL: (sha) => `api/commits/${sha}`,
+  CONVERSATION:{
+    UPDADE: (id) => `api/conversations/${id}`,
+    DELETE: (id) => `api/conversations/${id}`,
+    CREATE: 'api/conversations',
+    LIST: 'api/conversations',
+    DETAIL: (id) => `api/conversations/${id}`,
+    MESSAGES: (id) => `api/conversations/${id}/messages`,
+  },
 });
 
 // Pattern for feature grouping example (extend when needed)

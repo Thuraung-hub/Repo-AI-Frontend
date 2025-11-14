@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Plus, Menu, User, ChevronDown } from "lucide-react";
 import { useReposFromSync } from "../libs/hooks/repos/queries";
+import { useBranchesList } from "../libs/hooks/branches/queries";
 import { useProfile } from "../libs/hooks/profile/queries";
+import { api } from "../libs/api/api";
+import { ENDPOINTS } from "../libs/api/endpoints";
+import { useSyncBranchesAndRefreshMutation } from "../libs/hooks/branches/mutation";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function RepoSelector() {
   const navigate = useNavigate();
@@ -11,6 +16,10 @@ export default function RepoSelector() {
   const [selectedBranch, setSelectedBranch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const queryClient = useQueryClient();
+  const [syncingBranches, setSyncingBranches] = useState(false);
+  const [syncBranchesError, setSyncBranchesError] = useState(null);
+  const syncBranches = useSyncBranchesAndRefreshMutation();
 
   // hydrate user/profile (optional) and fetch repositories via sync endpoint
   useProfile();
@@ -21,13 +30,19 @@ export default function RepoSelector() {
     isFetching,
   } = useReposFromSync();
 
-  const branches = [
-    "main",
-    "develop",
-    "feature/new-ui",
-    "bugfix/inventory-fix",
-    "release/v2.0",
-  ];
+  // Fetch branches for the selected repository. The hook is disabled until
+  // `selectedRepo?.id` is available (see hooks implementation).
+  const {
+    data: branches = [],
+    isLoading: branchesLoading,
+    isFetching: branchesFetching,
+    error: branchesError,
+  } = useBranchesList(selectedRepo?.id || selectedRepo?.repo_id);
+
+  // clear previous branch selection when repo changes
+  useEffect(() => {
+    setSelectedBranch("");
+  }, [selectedRepo]);
 
   const filteredRepos = (repositories || []).filter((repo) => {
     const matchesSearch = repo.name
@@ -42,8 +57,29 @@ export default function RepoSelector() {
   });
 
   const handleSelectRepo = (repo) => {
-    setSelectedRepo(repo);
-    setStep(2);
+    const doSelect = async () => {
+      const qc = queryClient;
+      setSyncingBranches(true);
+      setSyncBranchesError(null);
+      const owner = repo.owner?.login || repo.owner || (repo.full_name ? repo.full_name.split('/')[0] : undefined);
+      const repoName = repo.name || (repo.full_name ? repo.full_name.split('/')[1] : undefined);
+      try {
+        if (owner && repoName) {
+          // use mutation (POST) and pass repoId so the hook invalidates the correct cache
+          await syncBranches.mutateAsync({ owner, repo: repoName, repoId: repo.id });
+        }
+        setSelectedRepo(repo);
+        setStep(2);
+      } catch (err) {
+        console.error('Failed to sync branches', err);
+        setSyncBranchesError(err?.message || 'Sync failed');
+        setSelectedRepo(repo);
+        setStep(2);
+      } finally {
+        setSyncingBranches(false);
+      }
+    };
+    doSelect();
   };
 
   const handleStartRefactoring = () => {
@@ -53,6 +89,8 @@ export default function RepoSelector() {
       });
     }
   };
+
+  console.log("Selected Repo:", selectedRepo);
 
   return (
     <div className="flex h-screen bg-[#121212] text-[#FFFFFF]">
@@ -181,11 +219,20 @@ export default function RepoSelector() {
                   className="w-full bg-zinc-900 text-white px-4 py-4 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
                 >
                   <option value="">Select a branch</option>
-                  {branches.map((branch) => (
-                    <option key={branch} value={branch}>
-                      {branch}
-                    </option>
-                  ))}
+                  {branchesLoading ? (
+                    <option disabled>Loading branches...</option>
+                  ) : branches && branches.length > 0 ? (
+                    branches.map((branch) => {
+                      const name = typeof branch === 'string' ? branch : branch.name || branch.ref || JSON.stringify(branch);
+                      return (
+                        <option key={name} value={name}>
+                          {name}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option disabled>No branches found</option>
+                  )}
                 </select>
                 <ChevronDown
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white pointer-events-none"

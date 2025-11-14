@@ -20,6 +20,10 @@ export const ENDPOINTS = Object.freeze({
     LIST: 'api/repos',
     SYNC: 'api/github/sync_repos',
   },
+  BRANCHES:{
+    LIST: (repoId) => `api/repos/${repoId}/branches`,
+    SYNC_BRANCHES: (owner, repo) => `api/github/${owner}/${repo}/branches/sync`,
+  },
   CHAT: 'api/chat/sessions',
   CHAT_SESSION_DETAIL: (id) => `api/chat/sessions/${id}`,
   COMMITS: 'api/commits',

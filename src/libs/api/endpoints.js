@@ -10,7 +10,17 @@ export const ENDPOINTS = Object.freeze({
     LOGIN: 'api/auth/login', // if you need an internal call (not used for OAuth redirect)
     LOGOUT: 'api/auth/logout',
   },
-  CHAT_SESSIONS: 'api/chat/sessions',
+  CONVERSATION: {
+    CREATE: 'api/conversations',
+    LIST: 'api/conversations',
+    DETAIL: (id) => `api/conversations/${id}`,
+    MESSAGES: (id) => `api/conversations/${id}/messages`,
+  },
+  REPOSITORIES:{
+    LIST: 'api/repos',
+    SYNC: 'api/github/sync_repos',
+  },
+  CHAT: 'api/chat/sessions',
   CHAT_SESSION_DETAIL: (id) => `api/chat/sessions/${id}`,
   COMMITS: 'api/commits',
   COMMIT_DETAIL: (sha) => `api/commits/${sha}`,

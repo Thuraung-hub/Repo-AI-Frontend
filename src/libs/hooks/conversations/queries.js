@@ -13,8 +13,18 @@ const DEFAULT_OPTIONS = {
  * Fetch paginated/list of conversations.
  * params can contain pagination/filters (e.g. { page, per_page }).
  */
-export function useConversationsList(params = undefined, options = {}) {
-  return useGetQuery(ENDPOINTS.CONVERSATION.LIST, params, { ...DEFAULT_OPTIONS, ...options });
+export function useConversationsList(convIdOrParams = undefined, params = undefined, options = {}) {
+  // If first arg is a string/number, treat it as a conv_id and call LIST(conv_id)
+  if (convIdOrParams && (typeof convIdOrParams === 'string' || typeof convIdOrParams === 'number')) {
+    const convId = convIdOrParams;
+    const endpoint = typeof ENDPOINTS.CONVERSATION.LIST === 'function' ? ENDPOINTS.CONVERSATION.LIST(convId) : ENDPOINTS.CONVERSATION.LIST;
+    return useGetQuery(endpoint, params, { ...DEFAULT_OPTIONS, ...options });
+  }
+
+  // Otherwise treat first arg as params
+  const endpoint = ENDPOINTS.CONVERSATION.LIST;
+  const queryParams = convIdOrParams;
+  return useGetQuery(endpoint, queryParams, { ...DEFAULT_OPTIONS, ...options });
 }
 
 /**

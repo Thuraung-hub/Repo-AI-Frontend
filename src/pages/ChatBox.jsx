@@ -3,6 +3,10 @@ import SidebarLayout from "../components/slidebar";
 import ChatMessages from "../components/ChatMessages";
 import ChatInput from "../components/ChatInput";
 import RefactorPreviewModal from "./Preview";
+import { useParams } from "react-router-dom";
+import { useCreateChat } from "../libs/hooks/chat/mutation";
+import { useUser } from "../libs/stores/useUser";
+import { useSession } from "../libs/stores/useSession";
 
 function ChatBox() {
   const [chatMessages, setChatMessages] = useState([]);
@@ -44,9 +48,37 @@ except BadRequest as e:
   }, [chatMessages]);
 
   // 🧠 Handle user input
-  const handleUserInput = (text) => {
+  const params = useParams();
+  const createChat = useCreateChat();
+  const user = useUser((s) => s.user);
+  const session = useSession((s) => s.currentConversation);
+
+  const handleUserInput = async (text) => {
     const userMsg = { message: text, sender: "user", id: crypto.randomUUID() };
     setChatMessages((prev) => [...prev, userMsg]);
+
+    // Determine conversation id: prefer route param convId, fallback to session
+    const convId = params?.convId || params?.conversationId || params?.id || session?.id;
+
+    // Build chat payload as requested: convoId (conv_id), chatId, gid (number), content, metadataJson
+    const chatId = crypto.randomUUID();
+    const gid = Number(user?.githubId || user?.id) || 0;
+    const payload = {
+      conv_id: convId,
+      body: {
+        chatId,
+        gid,
+        content: text,
+        metadataJson: null,
+      },
+    };
+
+    try {
+      // fire-and-forget; you can await createChat.mutateAsync if you want to block
+      await createChat.mutateAsync(payload);
+    } catch (err) {
+      console.error('Create chat message failed', err);
+    }
 
     const lowerText = text.toLowerCase();
     let aiMsg = null;

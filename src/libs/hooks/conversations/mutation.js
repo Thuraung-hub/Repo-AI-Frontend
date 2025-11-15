@@ -30,7 +30,7 @@ export function useUpdateConversation(options = {}) {
   return useMutation({
     mutationFn: ({ id, body } = {}) => {
       if (!id) throw new Error('id is required to update conversation');
-      return api.put(ENDPOINTS.CONVERSATION.UPDADE(id), body);
+      return api.put(ENDPOINTS.CONVERSATION.UPDATE(id), body);
     },
     ...DEFAULT_OPTIONS,
     onSuccess: (data, vars, ctx) => {

@@ -9,7 +9,7 @@ import { useUser } from "../libs/stores/useUser";
 import { useSession } from "../libs/stores/useSession";
 import { useRefactorSSE, useRefactorSSEGet, useRepoHealthCheck } from "../libs/hooks/repoai/queries";
 import { useAuthTokenQuery } from "../libs/hooks/auth/queries";
-import { useStartRefactor, useConfirmPlan } from "../libs/hooks/repoai/mutation";
+import { useStartRefactor, useConfirmPlan, useConfirmValidation } from "../libs/hooks/repoai/mutation";
 import { formatChatEvent } from "../libs/utils/formatChatEvent";
 
 function ChatBox() {
@@ -18,6 +18,7 @@ function ChatBox() {
   const [activeRefactorMsgId, setActiveRefactorMsgId] = useState(null);
   const [refactorSessionId, setRefactorSessionId] = useState(null);
   const [pendingConfirmPlan, setPendingConfirmPlan] = useState(null); // { planId }
+  const [pendingConfirmValidation, setPendingConfirmValidation] = useState(false);
   const chatEndRef = useRef(null); // ✅ ref for auto-scroll
 
   // Hardcoded example codes (later from backend)
@@ -71,6 +72,7 @@ except BadRequest as e:
   });
   const startRefactor = useStartRefactor();
   const confirmPlan = useConfirmPlan();
+  const confirmValidation = useConfirmValidation();
   const sseErrorShownRef = useRef(false);
   // const refactorSSE = useRefactorSSEGet(refactorSessionId, { enabled: !!refactorSessionId });
   const refactorSSEStream = useRefactorSSE(refactorSessionId, {
@@ -87,11 +89,15 @@ except BadRequest as e:
         meta: formatted.meta,
         id: crypto.randomUUID()
       }]);
-      // If the backend indicates a plan requires confirmation, capture that intent
+      // If the backend indicates a confirmation is required, capture that intent
       const meta = formatted?.meta;
-      if (meta?.requires_confirmation && (meta?.confirmation_type === 'plan' || !meta?.confirmation_type)) {
-        const planId = meta?.data?.plan_id || null;
-        setPendingConfirmPlan({ planId });
+      if (meta?.requires_confirmation) {
+        if (meta?.confirmation_type === 'validation') {
+          setPendingConfirmValidation(true);
+        } else if (meta?.confirmation_type === 'plan' || !meta?.confirmation_type) {
+          const planId = meta?.data?.plan_id || null;
+          setPendingConfirmPlan({ planId });
+        }
       }
     },
     // Suppress connection lifecycle messages in chat
@@ -134,7 +140,32 @@ except BadRequest as e:
       console.error("Create chat message failed", err);
     }
 
-    // If a plan confirmation is pending, send this text as the confirmation message instead of starting a new refactor
+    // If a VALIDATION confirmation is pending, send this text instead of starting a new refactor
+    if (pendingConfirmValidation && refactorSessionId) {
+      try {
+        await confirmValidation.mutateAsync({
+          session_id: refactorSessionId,
+          body: { session_id: refactorSessionId, user_response: text }
+        });
+        setChatMessages(prev => [...prev, {
+          message: "✅ Validation confirmation sent.",
+          sender: 'robot',
+          id: crypto.randomUUID()
+        }]);
+      } catch (err) {
+        setChatMessages(prev => [...prev, {
+          message: "❌ Failed to confirm validation. Please try again.",
+          sender: 'robot',
+          id: crypto.randomUUID()
+        }]);
+        console.error('Confirm validation failed', err);
+      } finally {
+        setPendingConfirmValidation(false);
+      }
+      return; // do not proceed
+    }
+
+    // If a PLAN confirmation is pending, send this text instead of starting a new refactor
     if (pendingConfirmPlan && refactorSessionId) {
       try {
         await confirmPlan.mutateAsync({
@@ -304,7 +335,7 @@ except BadRequest as e:
             chatMessages={chatMessages}
             setChatMessages={setChatMessages}
             onSend={handleUserInput}
-            placeholder={pendingConfirmPlan ? 'Type your confirmation message…' : 'Enter your prompt'}
+            placeholder={pendingConfirmValidation ? 'Type your validation choice…' : (pendingConfirmPlan ? 'Type your confirmation message…' : 'Enter your prompt')}
           />
         </div>
 

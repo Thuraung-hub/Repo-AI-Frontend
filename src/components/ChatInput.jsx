@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function ChatInput({ chatMessages, setChatMessages, onSend }) {
+export default function ChatInput({ chatMessages, setChatMessages, onSend, placeholder = "Enter your prompt" }) {
   const [inputText, setInputText] = useState("");
 
   const handleSend = () => {
@@ -17,7 +17,7 @@ export default function ChatInput({ chatMessages, setChatMessages, onSend }) {
     <div className="w-full bg-[#0d0d0d] border-t border-[#1f1f1f] px-6 py-4 flex items-center gap-3">
       <input
         type="text"
-        placeholder="Enter your prompt"
+        placeholder={placeholder}
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}

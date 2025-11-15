@@ -24,3 +24,10 @@ export function useCurrentUser(options = {}) {
 export function useAuthLogin(options = {}) {
   return useGetQuery(ENDPOINTS.AUTH.LOGIN, undefined, { ...DEFAULT_OPTIONS, ...options });
 }
+
+// Retrieve or validate a token via GET. If your backend expects POST for token exchange,
+// consider using a mutation hook instead — this GET hook matches the request's ask.
+// Usage: const { data, isLoading } = useAuthTokenQuery(params?)
+export function useAuthTokenQuery(params, options = {}) {
+  return useGetQuery(ENDPOINTS.AUTH.TOKEN, params, { ...DEFAULT_OPTIONS, ...options });
+}

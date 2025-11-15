@@ -6,6 +6,7 @@ export const ENDPOINTS = Object.freeze({
   USER: "api/user/profile", // current authenticated user session/profile
   REPOS: "repos",
   AUTH: {
+    TOKEN: "api/auth/token",
     STATUS: "api/auth/status",
     LOGIN: "api/auth/login", // if you need an internal call (not used for OAuth redirect)
     LOGOUT: "api/auth/logout",

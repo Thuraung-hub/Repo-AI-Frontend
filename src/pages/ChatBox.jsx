@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useCreateChat } from "../libs/hooks/chat/mutation";
 import { useUser } from "../libs/stores/useUser";
 import { useSession } from "../libs/stores/useSession";
+import { useRepoHealthCheck } from "../libs/hooks/repoai/queries";
 
 function ChatBox() {
   const [chatMessages, setChatMessages] = useState([]);
@@ -52,6 +53,8 @@ except BadRequest as e:
   const createChat = useCreateChat();
   const user = useUser((s) => s.user);
   const session = useSession((s) => s.currentConversation);
+  // repoai health check (disabled by default; we will trigger manually)
+  const { refetch: refetchRepoaiHealth } = useRepoHealthCheck({ enabled: false });
 
   const handleUserInput = async (text) => {
     const userMsg = { message: text, sender: "user", id: crypto.randomUUID() };
@@ -79,6 +82,13 @@ except BadRequest as e:
     } catch (err) {
       console.error('Create chat message failed', err);
     }
+    // After attempting to create chat message, trigger a RepoAI health check
+    try {
+      await refetchRepoaiHealth();
+    } catch (hcErr) {
+      console.error('RepoAI health check failed', hcErr);
+    }
+    
 
     const lowerText = text.toLowerCase();
     let aiMsg = null;

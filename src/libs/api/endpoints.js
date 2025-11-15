@@ -18,6 +18,14 @@ export const ENDPOINTS = Object.freeze({
     LIST: (repoId) => `api/repos/${repoId}/branches`,
     SYNC_BRANCHES: (owner, repo) => `api/github/${owner}/${repo}/branches/sync`,
   },
+  REPOAI:{
+    HEALTH_CHECK: "api/health",
+    START_REFACTOR: "api/refactor",
+    REFACTOR_SSE: (session_id) => `api/refactor/${session_id}/sse`,
+    REFACTOR_CONFIRM_PLAN: (session_id) => `api/refactor/${session_id}/confirm-plan`,
+    REFACTOR_VALIDATION: (session_id) => `api/refactor/${session_id}/confirm-validation`,
+    REFACTOR_PUSH: (session_id) => `api/refactor/${session_id}/confirm-push`,
+  },
   CONVERSATION: {
     UPDATE: (id) => `api/conversations/${id}`,
     DELETE: (id) => `api/conversations/${id}`,

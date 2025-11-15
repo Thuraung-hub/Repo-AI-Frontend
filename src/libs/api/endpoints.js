@@ -22,7 +22,7 @@ export const ENDPOINTS = Object.freeze({
     UPDATE: (id) => `api/conversations/${id}`,
     DELETE: (id) => `api/conversations/${id}`,
     CREATE: "api/conversations",
-    LIST: (conv_id) => `api/conversations/${conv_id}`,
+    LIST: () => `api/conversations`,
     DETAIL: (id) => `api/conversations/${id}`,
   },
   CHAT: {

@@ -22,7 +22,11 @@ export function useConversationsList(convIdOrParams = undefined, params = undefi
   }
 
   // Otherwise treat first arg as params
-  const endpoint = ENDPOINTS.CONVERSATION.LIST;
+  // Ensure we pass a string endpoint to the API helper. If the registry exported LIST as
+  // a function (possibly `() => 'api/conversations'`) call it with no args to get the string.
+  const endpoint = typeof ENDPOINTS.CONVERSATION.LIST === 'function'
+    ? ENDPOINTS.CONVERSATION.LIST()
+    : ENDPOINTS.CONVERSATION.LIST;
   const queryParams = convIdOrParams;
   return useGetQuery(endpoint, queryParams, { ...DEFAULT_OPTIONS, ...options });
 }
